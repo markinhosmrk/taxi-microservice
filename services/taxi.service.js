@@ -147,7 +147,7 @@ module.exports = {
 				if(isNaN(item.avgDistPerTrip)) {
 					item.avgDistPerTrip = item.distanceTraveled;
 				} else {
-					item.avgDistPerTrip += (item.distanceTraveled / item.numOfTrips);
+					item.avgDistPerTrip = (item.distanceTraveled / item.numOfTrips);
 				}								
 								
 				const doc = await this.adapter.updateById(ctx.params.id, { $set: { numOfTrips: item.numOfTrips, firstTripDate: item.firstTripDate, lastTripDate: item.lastTripDate, distanceTraveled: item.distanceTraveled, avgDistPerTrip: item.avgDistPerTrip}} );
