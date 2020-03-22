@@ -35,7 +35,8 @@ module.exports = {
 			"lastLon",
 			"numOfTrips",
 			"distanceTraveled",
-			"avgDistPerTrip"
+			"avgDistPerTrip",
+			"distance"
 		],
 
 		// Validator for the `create` & `insert` actions.
@@ -53,7 +54,8 @@ module.exports = {
 			color: "string|min:2|max:30",
 			numOfTrips: "number|optional",
 			distanceTraveled: "number|optional",
-			avgDistPerTrip: "number|optional"
+			avgDistPerTrip: "number|optional",
+			distance: "number|optional"
 		}
 	},
 
@@ -188,7 +190,7 @@ module.exports = {
 				distance: "number|integer|positive"
 			},
 			async handler(ctx) {
-				const items = await this.actions.find({ query: { lastPosUpdateDate: { $exists: true } }});
+				var items = await this.actions.find({ fields: ["_id", "idDriver", "maker", "model", "year", "color", "lastPosUpdateDate", "lastLat", "lastLon"], query: { lastPosUpdateDate: { $exists: true } }});
 				var doc = [];
 				
 				items.forEach(item => {
@@ -196,13 +198,18 @@ module.exports = {
 						var result = this.getDistanceByLatLon(item.lastLat, item.lastLon, ctx.params.lat, ctx.params.lon);
 						
 						this.logger.info("findTaxisNearby: taxi  " + item._id + " distance from point: " + result + ", requested: " + ctx.params.distance);
-						if(result <= ctx.params.distance) doc.push(item);
+						if(result <= ctx.params.distance) {
+							item.distance = result;
+							this.logger.info(JSON.stringify(item));
+							doc.push(item);
+						}
 					}
 				});
 
 				const json = await this.transformDocuments(ctx, ctx.params, doc);
 				await this.entityChanged("updated", json, ctx);
 
+				this.logger.info(json);
 				return json;				
 			}
 		},		
