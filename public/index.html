@@ -540,6 +540,7 @@
 							], response: null, status: null, duration: null },
 
 							{ id: "update", action: "taxi.update", rest: "/api/taxi/:id", method: "PUT", fields: [
+								{ field: "id", label: "ID", type: "text", paramType: "url", model: "taxiId" },
 								{ field: "maker", label: "Fabricante", type: "text", paramType: "body", model: "taxiMaker" },
 								{ field: "model", label: "Modelo", type: "text", paramType: "body", model: "taxiModel" },
 								{ field: "year", label: "Ano de fabricação", type: "number", paramType: "body", model: "taxiYear" },
@@ -556,7 +557,7 @@
 
 							{ id: "assignDriver", action: "taxi.assignDriver", rest: "/api/taxi/:id/idDriver/assign", method: "PUT", fields: [
 								{ field: "id", label: "ID", type: "text", paramType: "url", model: "taxiId" },
-								{ field: "idDriver", label: "ID motorista", type: "number", paramType: "body", model: "taxiIdDriver" },
+								{ field: "idDriver", label: "ID motorista", type: "string", paramType: "body", model: "taxiIdDriver" },
 							], response: null, status: null, duration: null },
 
 							{ id: "registerTrip", action: "taxi.registerTrip", rest: "/api/taxi/:id/trip/register", method: "PUT", fields: [
@@ -588,7 +589,7 @@
 						taxiMaker: "Fiat",
 						taxiModel: "Bravo",
 						taxiColor: "Preto",
-						taxiYear: "2016"
+						taxiYear: 2016
 					},
 
 					broker: null,

@@ -40,20 +40,20 @@ module.exports = {
 
 		// Validator for the `create` & `insert` actions.
 		entityValidator: {
-			idDriver: "string",
+			idDriver: "string|optional",
 			maker: "string|min:2|max:30",
 			model: "string|min:2|max:30",
 			registerDate: "date",
 			firstTripDate: "date|optional",
 			lastTripDate: "date|optional",
 			lastPosUpdateDate: "date|optional",
-			lastLat: "number", 
-			lastLon: "number", 
+			lastLat: "number|optional", 
+			lastLon: "number|optional", 
 			year: "number|integer|positive|min:1900|max:2999",
 			color: "string|min:2|max:30",
-			numOfTrips: "number|positive",
-			distanceTraveled: "number|positive",
-			avgDistPerTrip: "number|positive"
+			numOfTrips: "number|optional",
+			distanceTraveled: "number|optional",
+			avgDistPerTrip: "number|optional"
 		}
 	},
 
@@ -70,7 +70,7 @@ module.exports = {
 			 */
 			create(ctx) {
 				ctx.params.registerDate = new Date();
-				ctx.params.idDriver = 0;
+				ctx.params.idDriver = null;
 				ctx.params.numOfTrips = 0;
 				ctx.params.distanceTraveled = 0;
 				ctx.params.avgDistPerTrip = 0;
